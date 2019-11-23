@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Yudha Movie</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="utama m-auto position-relative">
+            <div class="row justify-content-center mt-5 myLogo">
+                <div class="col-md-4">
+                    <h1 class="text-center text-primary mb-0" style="font-size:6vw">YU<span class="font-italic"><span
+                                class="text-danger">m</span><span class="text-warning">o</span><span
+                                class="text-primary">v</span><span class="text-success">i</span><span
+                                class="text-danger">e</span></span>
+                    </h1>
+                </div>
+            </div>
+            <div class="row justify-content-center omdb ">
+                <div class="col-md-4">
+                    <p class="text-center font-italic font-weight-light mt-0">search movie from omdb</p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mt-4 search">
+                <div class="col-7">
+                    <div id="fakebox-container">
+                        <div id="fakebox">
+                            <span class="mt-auto position-absolute" style="bottom: 20%; "> <i
+                                    class="fa fa-search d-inline-block"></i></span>
+                            <input id="fakebox-input" autocomplete="off" class="" tabindex="-1" aria-hidden="true"
+                                placeholder="Search title...">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mt-3 justify-content-between">
+                <div class="col-10 m-auto">
+                    <div class="row" id="movie-list">
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <footer>
+            <div class="row justify-content-center fixed-bottom">
+                <div class="col-sm-5">
+                    <p class="text-center">Copyright 2019 | fardinpratama</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="assets/jquery-3.3.1.min.js"></script>
+    <script src="assets/popper.min.js"></script>
+    <script src="assets/bootstrap.min.js"></script>
+    <script>
+        // function
+        function searchMovie() {
+            $('#movie-list').html('');
+
+            $.ajax({
+                url: 'http://omdbapi.com',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    'apikey': '7ff7bcba',
+                    's': $('#fakebox-input').val()
+                },
+                success: function (result) {
+                    if (result.Response == "True") {
+                        let movies = result.Search;
+
+                        $.each(movies, function (i, data) {
+
+                            $('#movie-list').append(`
+                            <div class="card mb-3 border-0" style="max-height: 200px;">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4">
+                                    <img src="${data.Poster}" class="card-img" alt="thumbnail" >
+                                    </div>
+                                    <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${data.Title}</h5>
+                                        <p class="card-text"><small class="text-muted"> Tahun Rilis : ${data.Year}</small></p>
+                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                    `);
+                        });
+
+                        $('#search-input').val('');
+
+                    } else {
+                        $('#movie-list').html(`
+                    <div class="col">
+                        <h1 class="text-center">` + result.Error + `</h1>
+                    </div>
+                `)
+                    }
+                }
+            });
+        }
+
+
+        $('#fakebox-input').on('keyup', function (e) {
+            if (e.which === 13) {
+                searchMovie();
+                $('.myLogo').removeClass('mt-5');
+                // $('.search').addClass('float-right');
+
+            }
+        });
+    </script>
+</body>
+
+</html>

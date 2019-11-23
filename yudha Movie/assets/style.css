@@ -22,17 +22,33 @@
     transition: none;
 }
 
+.icon-search i {
+    color: rgb(129, 128, 128);
+}
+
 #fakebox-input {
     bottom: 0;
     box-sizing: border-box;
     right: 5%;
     margin: 0;
     opacity: 1;
-    padding-inline-start: 20px;
+    /* padding-inline-start: 20px; */
     position: absolute;
     top: 0;
     border: none;
-    width: 90%;
+    width: 95%;
     overflow: hidden;
     color: rgb(129, 128, 128) !important
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+footer p {
+    text-align: center;
 }

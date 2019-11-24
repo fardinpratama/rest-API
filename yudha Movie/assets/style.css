@@ -1,15 +1,46 @@
 .myLogo {
-    margin-bottom: -1%;
+    margin: auto;
+    margin-top: 10%;
+    text-align: center;
 }
 
-.myLogo p {
-    margin-top: -5%;
+
+.logo {
+    transition: .1s linear;
+}
+
+.logo a:hover {
+    background: salmon !important;
+}
+
+.myLogo h1 {
+    font-size: 7vw !important;
+}
+
+
+
+.batas {
+    visibility: hidden;
 }
 
 .omdb {
     font-size: 1vw;
 }
 
+.logoMove {
+    float: left;
+
+}
+
+.logoMove h1 {
+    font-size: 3.5vw !important;
+    text-align: left !important;
+}
+
+.search {
+    height: 100%;
+    width: 100% !important;
+}
 
 #fakebox {
     background: white;
@@ -26,8 +57,31 @@
     transition: none;
 }
 
-.icon-search i {
+
+
+.icon-search {
+    /* 
+    bottom: 0;
+    left: 0;
+    margin: auto 0;
+    margin-inline-start: 16px;
+    position: absolute;
+    top: 0;
+    width: 24px; */
+    height: 100%;
     color: rgb(129, 128, 128);
+    margin: auto 0 !important;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.icon-search i {
+
+    /* position: absolute !important;
+    margin: auto;
+    left: 0;
+    right: 0; */
+    /* bottom: 0; */
 }
 
 #fakebox-input {
@@ -42,8 +96,12 @@
     border: none;
     width: 95%;
     overflow: hidden;
-    color: rgb(129, 128, 128) !important
+    color: rgb(129, 128, 128) !important;
 }
+
+
+
+
 
 footer {
     position: relative;
@@ -59,3 +117,21 @@ footer p {
 }
 
 /* phone */
+
+@media (max-width: 575.98px) {
+    #fakebox {
+        box-shadow: 0 1px 4px 0 rgba(32, 33, 36, .28);
+        font-size: 10px;
+        height: 22px;
+    }
+}
+
+@media (min-width: 997px) {
+    .myLogo p {
+        margin-top: -10px;
+    }
+
+    .inputMove {
+        margin-top: 20px !important;
+    }
+}

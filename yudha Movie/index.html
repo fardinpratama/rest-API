@@ -16,47 +16,36 @@
 
 <body>
     <div class="container">
-        <div class="utama m-auto position-relative">
-            <div class="row justify-content-center mt-5 myLogo">
-                <div class="col-md-4">
-                    <h1 class="text-center text-primary mb-0" style="font-size:6vw">YU<span class="font-italic"><span
+        <div class="utama mt-4">
+            <div class="row">
+                <div class="col-6 logo myLogo">
+                    <h1 class="text-primary mb-0" style="font-size:4vw">YU<span class="font-italic"><span
                                 class="text-danger">m</span><span class="text-warning">o</span><span
                                 class="text-primary">v</span><span class="text-success">i</span><span
                                 class="text-danger">e</span></span>
                     </h1>
+                    <p class="font-italic font-weight-light" style="font-size:1vw">search movie from omdb</p>
                 </div>
-            </div>
-            <div class="row justify-content-center omdb ">
-                <div class="col-md-4">
-                    <p class="text-center font-italic font-weight-light mt-0">search movie from omdb</p>
-                </div>
-            </div>
 
-            <div class="row justify-content-center mt-4 search">
-                <div class="col-lg-7">
-                    <div id="fakebox-container">
-                        <div id="fakebox">
-                            <div class="row m-0" style="height: 100%;">
-                                <div class="col-1 m-auto icon-search">
-                                    <i class="fa fa-search d-inline-block"></i>
-                                </div>
-                                <div class="col-11 p-0">
-                                    <input id="fakebox-input" autocomplete="off" class="" tabindex="-1"
-                                        aria-hidden="true" placeholder="Search title...">
-                                </div>
-                            </div>
-
+                <div class="col-8 p-0" id="fakebox">
+                    <div class="row search p-0 m-auto">
+                        <div class="col-1 p-0 d-table" style=" height: 100%;">
+                            <i class="fa fa-search d-table-cell icon-search"></i>
+                        </div>
+                        <div class="col-11  p-0">
+                            <input id="fakebox-input" autocomplete="off" class="" tabindex="-1" aria-hidden="true"
+                                placeholder="Search title...">
                         </div>
                     </div>
                 </div>
+
+
+
             </div>
-
-
+            <hr class="batas mb-3">
             <div class="row mt-3 justify-content-between">
-                <div class="col-10 m-auto">
-                    <div class="row" id="movie-list">
+                <div class="col-12" id="movie-list">
 
-                    </div>
                 </div>
             </div>
 
@@ -64,53 +53,55 @@
 
 
 
+
+
+
+
+
+
+
+            <footer>
+                <hr>
+                <div class="row justify-content-center ">
+                    <div class="col-sm-5">
+                        <p class="text-center">Copyright 2019 | fardinpratama</p>
+                    </div>
+                </div>
+            </footer>
 
         </div>
 
 
 
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="assets/jquery-3.3.1.min.js"></script>
+        <script src="assets/popper.min.js"></script>
+        <script src="assets/bootstrap.min.js"></script>
+        <script>
+            // function
+            function searchMovie() {
+                $('#movie-list').html('');
+
+                $.ajax({
+                    url: 'http://omdbapi.com',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
+                        'apikey': '7ff7bcba',
+                        's': $('#fakebox-input').val()
+                    },
+                    success: function (result) {
+                        if (result.Response == "True") {
+                            let movies = result.Search;
+
+                            $.each(movies, function (i, data) {
+
+                                $('#movie-list').append(`
+                            <div class="row mb-3 bg-danger" >
 
 
-
-        <footer>
-            <hr>
-            <div class="row justify-content-center ">
-                <div class="col-sm-5">
-                    <p class="text-center">Copyright 2019 | fardinpratama</p>
-                </div>
-            </div>
-        </footer>
-
-    </div>
-
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="assets/jquery-3.3.1.min.js"></script>
-    <script src="assets/popper.min.js"></script>
-    <script src="assets/bootstrap.min.js"></script>
-    <script>
-        // function
-        function searchMovie() {
-            $('#movie-list').html('');
-
-            $.ajax({
-                url: 'http://omdbapi.com',
-                type: 'get',
-                dataType: 'json',
-                data: {
-                    'apikey': '7ff7bcba',
-                    's': $('#fakebox-input').val()
-                },
-                success: function (result) {
-                    if (result.Response == "True") {
-                        let movies = result.Search;
-
-                        $.each(movies, function (i, data) {
-
-                            $('#movie-list').append(`
-                            <div class="card mb-3 border-0" style="max-height: 200px;">
+                            <div class="card border-0" style="max-height: 200px;">
                                 <div class="row no-gutters">
                                     <div class="col-md-4">
                                     <img src="${data.Poster}" class="card-img" alt="thumbnail" >
@@ -124,32 +115,37 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     `);
-                        });
+                            });
 
-                        $('#search-input').val('');
+                            $('#search-input').val('');
 
-                    } else {
-                        $('#movie-list').html(`
-                    <div class="col">
-                        <h1 class="text-center">` + result.Error + `</h1>
+                        } else {
+                            $('#movie-list').html(`
+                    <div class="col-12 ">
+                        <h1 class="text-secondary"><span class="" >Oops!</span> ` + result.Error + `</h1>
                     </div>
                 `)
+                        }
                     }
+                });
+            }
+
+
+            $('#fakebox-input').on('keyup', function (e) {
+                if (e.which === 13) {
+                    searchMovie();
+                    $('.logo').removeClass('col-6');
+                    $('.logo').removeClass('myLogo');
+                    $('.logo').addClass('col-3');
+                    $('#fakebox').addClass('inputMove');
+                    // $('.input-search').addClass('col');
+                    $('hr').removeClass('batas');
+
                 }
             });
-        }
-
-
-        $('#fakebox-input').on('keyup', function (e) {
-            if (e.which === 13) {
-                searchMovie();
-                $('.myLogo').removeClass('mt-5');
-                // $('.search').addClass('float-right');
-
-            }
-        });
-    </script>
+        </script>
 </body>
 
 </html>

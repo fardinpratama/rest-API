@@ -73,6 +73,26 @@
 
         </div>
 
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Movie Search</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <!-- Optional JavaScript -->
@@ -82,22 +102,26 @@
         <script src="assets/bootstrap.min.js"></script>
         <script>
             // function
-            function detailMovie(dataID) {
+            function Coba(id) {
                 $.ajax({
                     url: 'http://omdbapi.com',
                     dataType: 'json',
                     type: 'get',
                     data: {
                         'apikey': '7ff7bcba',
-                        'i': $(this).dataID
+                        'i': id,
                     },
                     success: function (movie) {
                         if (movie.Response === "True") {
-                            `<p>` + movie.plot + `</p>`
+
+                            $('.' + id).html(movie.Plot)
+
                         }
                     }
                 });
+
             }
+
             // function
             function searchMovie() {
                 $('#movie-list').html('');
@@ -125,9 +149,14 @@
                                     <div class="content">
                                         <div class="row">
                                             <div class="col-12">
-                                                <h5>${data.Title}</h5>
+                                                <a href="#" id="detail" class="see-detail" data-id="${data.imdbID}" data-toggle="modal" data-target="#exampleModal"><h5>${data.Title}</h5></a>
+                                                
+                                               
                                                 <p>Tahun Rilis : ${data.Year}</p>
-                                                <span>${detailMovie($(data.imdbID))}</span>
+                                                <p class="card-text plot ${data.imdbID}">` + Coba(data
+                                        .imdbID) +
+                                    `</p>
+                                    </div>
                                             </div>
 
                                         </div>
@@ -163,6 +192,45 @@
 
 
                 }
+            });
+
+            $('#movie-list').on('click', '.see-detail', function () {
+
+                $.ajax({
+                    url: 'http://omdbapi.com',
+                    dataType: 'json',
+                    type: 'get',
+                    data: {
+                        'apikey': '7ff7bcba',
+                        'i': $(this).data('id')
+                    },
+                    success: function (movie) {
+                        if (movie.Response === "True") {
+
+                            $('.modal-body').html(`
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="` + movie.Poster + `" class="img-fluid">
+                        </div>
+
+                        <div class="col-md-8">
+                            <ul class="list-group">
+                                <li class="list-group-item"><h3>` + movie.Title + `</h3></li>
+                                <li class="list-group-item">Released : ` + movie.Released + `</li>
+                                <li class="list-group-item">Genre : ` + movie.Genre + `</li>                 
+                                <li class="list-group-item">Director : ` + movie.Director + `</li>                 
+                                <li class="list-group-item">Director : ` + movie.Actors + `</li>                 
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `);
+
+                        }
+                    }
+                });
+
             });
         </script>
 </body>

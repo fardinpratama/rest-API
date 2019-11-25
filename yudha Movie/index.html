@@ -43,8 +43,10 @@
 
             </div>
             <hr class="batas mb-3">
+
             <div class="row mt-3 justify-content-between">
                 <div class="col-12" id="movie-list">
+                    <h5 class="text-primary font-italic hilang" id="hasil">Hasil Pencarian</h5>
 
                 </div>
             </div>
@@ -75,10 +77,27 @@
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="assets/jquery-3.3.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="assets/popper.min.js"></script>
         <script src="assets/bootstrap.min.js"></script>
         <script>
+            // function
+            function detailMovie(dataID) {
+                $.ajax({
+                    url: 'http://omdbapi.com',
+                    dataType: 'json',
+                    type: 'get',
+                    data: {
+                        'apikey': '7ff7bcba',
+                        'i': $(this).dataID
+                    },
+                    success: function (movie) {
+                        if (movie.Response === "True") {
+                            `<p>` + movie.plot + `</p>`
+                        }
+                    }
+                });
+            }
             // function
             function searchMovie() {
                 $('#movie-list').html('');
@@ -94,29 +113,28 @@
                     success: function (result) {
                         if (result.Response == "True") {
                             let movies = result.Search;
-
+                            $('#movie-list').append(`
+                            <h6 class="text-primary font-italic mb-2" id="hasil">Search result: </h6> 
+                            `);
                             $.each(movies, function (i, data) {
 
                                 $('#movie-list').append(`
-                            <div class="row mb-3 bg-danger" >
+                                <div class="row mb-3">
+                                <div class="col"  data-id="${data.imdbID}">
+                                    <img src="${data.Poster}" alt="" class="img-fluid float-left" style="max-width:10%;height: auto;">
+                                    <div class="content">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5>${data.Title}</h5>
+                                                <p>Tahun Rilis : ${data.Year}</p>
+                                                <span>${detailMovie($(data.imdbID))}</span>
+                                            </div>
 
-
-                            <div class="card border-0" style="max-height: 200px;">
-                                <div class="row no-gutters">
-                                    <div class="col-md-4">
-                                    <img src="${data.Poster}" class="card-img" alt="thumbnail" >
-                                    </div>
-                                    <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${data.Title}</h5>
-                                        <p class="card-text"><small class="text-muted"> Tahun Rilis : ${data.Year}</small></p>
-                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    `);
+                                 `);
                             });
 
                             $('#search-input').val('');
@@ -142,6 +160,7 @@
                     $('#fakebox').addClass('inputMove');
                     // $('.input-search').addClass('col');
                     $('hr').removeClass('batas');
+
 
                 }
             });

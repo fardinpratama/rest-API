@@ -10,17 +10,19 @@
     <link rel="stylesheet" href="assets/bootstrap.min.css">
     <link rel="stylesheet" href="assets/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- favicon -->
 
     <title>Yudha Movie</title>
 </head>
 
 <body>
 
-    <nav class="navbar navbar-light float-right" style="right: 0;">
+    <nav class="navbar navbar-light position-absolute" style="right: 0;">
         <a class="navbar-brand ml-auto" href="#" data-container="body" data-toggle="popover" title="About Us"
             data-placement="bottom"
             data-content="webiste searches various films obtained from the OMDb website using the rest API. Enjoy your browsing">
-            <span><i class="fa fa-exclamation-circle text-secondary"> </i></span>
+            <span><i class="fa fa-exclamation-circle text-secondary">
+                </i></span>
         </a>
 
     </nav>
@@ -52,7 +54,7 @@
 
 
             </div>
-            <hr class="batas mb-3">
+            <hr class="batas mb-3 mt-0">
 
             <div class="row mt-3 justify-content-between">
                 <div class="col-12" id="movie-list">
@@ -115,159 +117,7 @@
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="assets/popper.min.js"></script>
         <script src="assets/bootstrap.min.js"></script>
-        <script>
-            // popover
-            $(function () {
-                $('[data-toggle="popover"]').popover()
-            })
-            // function
-            function Coba(id) {
-                $.ajax({
-                    url: 'http://omdbapi.com',
-                    dataType: 'json',
-                    type: 'get',
-                    data: {
-                        'apikey': '7ff7bcba',
-                        'i': id,
-                    },
-                    success: function (movie) {
-                        if (movie.Response === "True") {
-
-                            $('.' + id).html(movie.Plot)
-
-                        }
-                    }
-                });
-
-            }
-
-            // function
-            function searchMovie() {
-                $('#movie-list').html('');
-
-                $.ajax({
-                    url: 'http://omdbapi.com',
-                    type: 'get',
-                    dataType: 'json',
-                    data: {
-                        'apikey': '7ff7bcba',
-                        's': $('#fakebox-input').val()
-                    },
-                    success: function (result) {
-                        if (result.Response == "True") {
-                            let poster = [];
-                            let movies = result.Search;
-                            $('#movie-list').append(`
-                            <h6 class="text-primary font-italic mb-2" id="hasil">Search result: </h6> 
-                            `);
-                            $.each(movies, function (i, data) {
-                                if (data.Poster == 'N/A') {
-                                    poster[data.imdbID] = 'https://placehold.co/300x420';
-                                } else {
-                                    poster[data.imdbID] = data.Poster;
-                                }
-                                $('#movie-list').append(`
-                                <div class="row mb-3">
-                                <div class="col"  data-id="${data.imdbID}">
-                                    <img src="${poster[data.imdbID]}" alt="" class="img-fluid float-left" style="max-width:10%;height: auto;">
-                                    <div class="content">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <a href="#" id="detail" class="see-detail" data-id="${data.imdbID}" data-toggle="modal" data-target="#exampleModal"><h5>${data.Title}</h5></a>
-                                                
-                                               
-                                                <p>Tahun Rilis : ${data.Year}</p>
-                                                <p class="card-text plot ${data.imdbID}">` + Coba(data
-                                        .imdbID) +
-                                    `</p>
-                                    </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                                 `);
-                            });
-
-                            $('#search-input').val('');
-                            $('.footer').css({
-                                'position': 'relative'
-                            })
-
-                        } else {
-                            $('#movie-list').html(`
-                    <div class="col-12 ">
-                        <h1 class="text-secondary"><span class="" >Oops!</span> ` + result.Error + `</h1>
-                    </div>
-                `)
-                        }
-                    }
-                });
-            }
-
-
-            $('#fakebox-input').on('keyup', function (e) {
-                if (e.which === 13) {
-                    searchMovie();
-                    $('.logo').removeClass('col-6');
-                    $('.logo').removeClass('myLogo');
-                    $('.logo').addClass('col-3');
-                    $('#fakebox').addClass('inputMove');
-                    // $('.input-search').addClass('col');
-                    $('hr').removeClass('batas');
-
-
-                }
-            });
-
-            $('#movie-list').on('click', '.see-detail', function () {
-
-                $.ajax({
-                    url: 'http://omdbapi.com',
-                    dataType: 'json',
-                    type: 'get',
-                    data: {
-                        'apikey': '7ff7bcba',
-                        'i': $(this).data('id'),
-                        'plot': 'full'
-                    },
-                    success: function (movie) {
-                        if (movie.Response === "True") {
-                            let banner = [];
-                            if (movie.Poster == 'N/A') {
-                                banner[movie.Title] = 'https://placehold.co/300x420';
-                            } else {
-                                banner[movie.Title] = movie.Poster;
-                            }
-                            $('.modal-body').html(`
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img src="` + banner[movie.Title] + `" class="img-fluid">
-                        </div>
-
-                        <div class="col-md-8">
-                            <ul class="list-group">
-                                <li class="list-group-item bg-light"><h3>` + movie.Title + `</h3></li>
-                                <li class="list-group-item">Released : ` + movie.Released + `</li>
-                                <li class="list-group-item">Genre : ` + movie.Genre + `</li>                 
-                                <li class="list-group-item">Director : ` + movie.Director + `</li>                 
-                                <li class="list-group-item">Director : ` + movie.Actors + `</li>                 
-                                <li class="list-group-item" style="height:120px; overflow:auto">Director : ` + movie
-                                .Plot + `</li>                 
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            `);
-
-                        }
-                    }
-                });
-
-            });
-        </script>
+        <script src="assets/script.js"></script>
 </body>
 
 </html>

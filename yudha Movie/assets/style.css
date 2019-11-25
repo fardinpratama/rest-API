@@ -127,10 +127,72 @@ footer p {
 /* phone */
 
 @media (max-width: 575.98px) {
+    body {
+        font-size: .5rem;
+    }
+
+    .logo {
+        padding-right: 0;
+    }
+
+    .inputMove {
+        margin: 0 !important;
+    }
+
+    .navbar {
+        top: 0;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .navbar-brand {
+        padding-top: 0;
+        margin-right: 10px;
+
+    }
+
+
+
+
+    .see-detail h5,
+    #movie-list h6 {
+        font-size: 0.7rem !important;
+    }
+
     #fakebox {
         box-shadow: 0 1px 3px 0 rgba(32, 33, 36, .28);
         font-size: 10px;
         height: 22px;
+    }
+
+    .modal-body {
+        font-size: .6rem;
+    }
+
+    .modal-body .col-4 {
+        padding: 0;
+    }
+
+
+    .modal-body h3 {
+        font-size: 0.9rem;
+    }
+
+    .modal-footer button {
+        padding: 3px 6px;
+        font-size: 0.5rem;
+    }
+
+    .plot-modal {
+        height: 70px !important;
+    }
+
+    footer {
+        font-size: 0.5rem;
+    }
+
+    footer hr {
+        margin-bottom: 3%;
     }
 }
 

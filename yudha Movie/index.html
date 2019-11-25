@@ -62,16 +62,18 @@
 
 
 
-            <footer>
+
+        </div>
+        <footer class="footer">
+            <div class="container">
                 <hr>
                 <div class="row justify-content-center ">
                     <div class="col-sm-5">
                         <p class="text-center">Copyright 2019 | fardinpratama</p>
                     </div>
                 </div>
-            </footer>
-
-        </div>
+            </div>
+        </footer>
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -79,7 +81,10 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Movie Search</h5>
+                        <h5 class="modal-title text-info" id="exampleModalLabel">Detail
+                            <span class="text-danger">m</span><span class="text-warning">o</span><span
+                                class="text-primary">v</span><span class="text-success">i</span><span
+                                class="text-danger">e</span></span></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -88,7 +93,7 @@
                         ...
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -167,6 +172,9 @@
                             });
 
                             $('#search-input').val('');
+                            $('.footer').css({
+                                'position': 'relative'
+                            })
 
                         } else {
                             $('#movie-list').html(`
@@ -216,7 +224,7 @@
 
                         <div class="col-md-8">
                             <ul class="list-group">
-                                <li class="list-group-item"><h3>` + movie.Title + `</h3></li>
+                                <li class="list-group-item bg-light"><h3>` + movie.Title + `</h3></li>
                                 <li class="list-group-item">Released : ` + movie.Released + `</li>
                                 <li class="list-group-item">Genre : ` + movie.Genre + `</li>                 
                                 <li class="list-group-item">Director : ` + movie.Director + `</li>                 
